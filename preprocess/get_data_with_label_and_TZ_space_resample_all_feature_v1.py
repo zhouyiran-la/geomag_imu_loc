@@ -280,7 +280,7 @@ def get_save_data_with_label_and_resample_csv(
         # 组合全部特征 + pos，一起重采样
         feat_pos_data = np.hstack((X_all, pos_data))
 
-        resampled_data = resample_bins(feat_pos_data, bin_size=0.2, samples_per_bin=10)
+        resampled_data = resample_bins(feat_pos_data, bin_size=0.2, samples_per_bin=5)
 
         # 构建列名：mag(输出名) + imu + gra + pos
         out_columns = (
@@ -306,6 +306,6 @@ def get_save_data_with_label_and_resample_csv(
 
 if __name__ == "__main__":
 
-    input_dir = "./data/12-25-信息文管室内地磁数据采集/12-25-OPPO Find X/12-25-信息"
-    output_dir = "./data/12-25-信息文管室内地磁数据采集/12-25-OPPO Find X/12-25-信息/resample-TZ-all-feature-10"
-    get_save_data_with_label_and_resample_csv(input_dir, output_dir, trans=True, zscore=True)
+    input_dir = "./data/12-25-信息文管室内地磁数据采集/12-25-Huawei P60/12-25-信息"
+    output_dir = "./data/12-25-信息文管室内地磁数据采集/12-25-Huawei P60/12-25-信息/resample-zscore-all-feature-5"
+    get_save_data_with_label_and_resample_csv(input_dir, output_dir, trans=False, zscore=True)
