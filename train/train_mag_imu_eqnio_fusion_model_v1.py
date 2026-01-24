@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Optional
 from torch.optim import Adam
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
@@ -17,25 +17,11 @@ from datasets.transforms import DefaultTransform, YawAugmentO2Transform, Compose
 from datasets.utils import denorm_y
 from network.loc_losses import WeightedSmoothL1
 from network.mag_imu_eqnio_fusion_model import MagImuEqNioFusionModelV1
-from network.utils import canonical_consistency_loss, forward_with_yaw_pair
-from typing import TypeVar
+
+from train.utils import move_to_device, canonical_consistency_loss, forward_with_yaw_pair
 
 # ============================================================
-# 1) 小工具：递归搬运 batch（支持 batch["aug"]）
-# ============================================================
-T = TypeVar("T")
-def move_to_device(x: T, device: torch.device) -> T:
-    if isinstance(x, torch.Tensor):
-        return x.to(device, non_blocking=True)  # type: ignore[return-value]
-    if isinstance(x, dict):
-        return {k: move_to_device(v, device) for k, v in x.items()}  # type: ignore[return-value]
-    if isinstance(x, (list, tuple)):
-        return type(x)(move_to_device(v, device) for v in x)  # type: ignore[return-value]
-    return x
-
-
-# ============================================================
-# 2) 训练 / 验证（含真实坐标系指标）
+# 1) 训练 / 验证（含真实坐标系指标）
 # ============================================================
 
 def train_one_epoch(
@@ -189,7 +175,7 @@ def evaluate(
 
 
 # ============================================================
-# 3) loss 曲线保存
+# 2) loss 曲线保存
 # ============================================================
 
 def plot_and_save_losses(train_losses, val_losses, out_dir: Path, suffix: str = ""):
@@ -219,7 +205,7 @@ def plot_and_save_losses(train_losses, val_losses, out_dir: Path, suffix: str = 
     print(f"Saved loss csv to {csv_path}")
 
 # ============================================================
-# 4) canonical consistency loss 的分段退火策略
+# 3) canonical consistency loss 的分段退火策略
 # ============================================================
 
 def get_lambda_can(epoch: int):
@@ -234,13 +220,13 @@ def get_lambda_can(epoch: int):
         return 0.02
 
 # ============================================================
-# 5) 主函数
+# 4) 主函数
 # ============================================================
 
 def main():
     # --------- data path（按你实际目录改） ---------
-    train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "train")
-    val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "eval")
+    train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-xinxi-resample-zscore-all-feature-5-v3" / "train")
+    val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-xinxi-resample-zscore-all-feature-5-v3" / "eval")
     # test_dir = str(Path("data") / "test")  # 如果你也需要 test，可以照 val 再建一个 loader
 
     gpu_id = 0
@@ -252,8 +238,8 @@ def main():
     # --------- 超参（按需调整） ---------
     batch_size = 32
     lr = 5e-4
-    epochs = 300
-    weight_decay = 3e-4
+    epochs = 400
+    weight_decay = 1e-4
     num_workers = 2 if device.type == "cuda" else 0
     pin_memory = device.type == "cuda"
 
@@ -340,7 +326,7 @@ def main():
     ).to(device)
 
     # --------- loss / optim / scheduler ---------
-    criterion = WeightedSmoothL1(beta=0.05, w_x=1.0, w_y=1.3).to(device)
+    criterion = WeightedSmoothL1(beta=0.05, w_x=1.3, w_y=1.0).to(device)
     optimizer = Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-6)
 
