@@ -89,7 +89,7 @@ def test(
             f"mean_l1={mean_l1:.3f} mean_l2={mean_l2:.3f} rmse_x={rmse_x:.3f} rmse_y={rmse_y:.3f} rmse_2d={rmse_2d:.3f}")
     
     res_dir.mkdir(parents=True, exist_ok=True)
-    file_name = f"wenguan_test1_128_loc_res_meanerr_{mean_l2:.4f}.csv"
+    file_name = f"wenguan_test3_128_loc_res_meanerr_{mean_l2:.4f}.csv"
     output_csv = res_dir / file_name
 
     results_df = pd.DataFrame(
@@ -107,7 +107,7 @@ def test(
 
 if __name__ == "__main__":
 
-    test_dir = Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "test1"
+    test_dir = Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "test3"
     ckpt_path = Path("checkpoints") / "mag_imu_eqnio" / "mag_imu_eqnio_best_20260124_1658_rmse_2d_0.957_wenguan_128_10_v1.pt"
     res_dir = Path("runs") / "loc_res" / "mag_imu_eqnio_1658"
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
             DefaultTransform(),
             YawAugmentO2Transform(p_reflect=0.0),
     ])
-    criterion = WeightedSmoothL1(beta=0.05, w_x=1.0, w_y=1.3).to(device)
+    criterion = WeightedSmoothL1(beta=0.05, w_x=1.3, w_y=1.0).to(device)
 
     model = MagImuEqNioFusionModelV1(
         mag_input_dim=3,

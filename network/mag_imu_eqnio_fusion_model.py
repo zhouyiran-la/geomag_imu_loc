@@ -12,8 +12,7 @@ from network.utils import build_o2_features_from_imu, apply_frame_xy
 
 class MagImuEqNioFusionModelV1(nn.Module):
     """
-    Baseline A（推荐先跑通）：
-      - FrameNet (EqNIO O(2)) 用 IMU（acc,v1,v2）预测 Fm
+    Baseline A：en
       - canonicalize: mag/acc/v1/v2
       - mag: 用你现有 TimeMixer 多尺度 + 内部 attention_fusion 得到 mag_fused
       - imu: 用 RONIN-like ResNet1D 得到 imu_feat（单向量）
