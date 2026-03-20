@@ -34,28 +34,30 @@ def setup_plot_equal_style():
         "figure.dpi": 150,
     })
 
-
-def setup_plot_season_trend_style():
+def setup_plot_equivalent_style():
     """
     全局 Matplotlib 样式设置。
     在每个绘图脚本开头调用一次即可。
     """
     plt.style.use("seaborn-v0_8-whitegrid")
-    plt_rc = matplotlib.rcParams
-    plt_rc["font.family"] = ["Noto Sans CJK JP", "DejaVu Sans"]
-    plt_rc["axes.unicode_minus"] = False
-    plt_rc.update({
-        "axes.labelsize": 13,
-        "axes.titlesize": 13,
-        "xtick.labelsize": 11,
-        "ytick.labelsize": 11,
+
+    matplotlib.rcParams["font.family"] = "sans-serif"
+    matplotlib.rcParams["font.sans-serif"] = [
+       "Source Han Sans SC"
+    ]
+    matplotlib.rcParams["axes.unicode_minus"] = False
+
+    matplotlib.rcParams.update({
+        
+        "axes.labelsize": 15,
+        "axes.titlesize": 15,
+        "xtick.labelsize": 13,
+        "ytick.labelsize": 13,
         "legend.fontsize": 13,
-        "lines.linewidth": 1.2,
+        "lines.linewidth": 2.0,
         "grid.alpha": 0.4,
         "axes.edgecolor": "0.25",
         "axes.linewidth": 1.5,
-        "savefig.dpi": 600,
-        "figure.dpi": 150,
     })
 
 
