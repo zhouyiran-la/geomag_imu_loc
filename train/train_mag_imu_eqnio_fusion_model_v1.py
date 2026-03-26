@@ -53,37 +53,39 @@ def train_one_epoch(
 
     for batch in loader or []:
         batch = move_to_device(batch, device)
-
         y = batch["y"].to(device, non_blocking=True).float()
 
         optimizer.zero_grad(set_to_none=True)
 
         with torch.cuda.amp.autocast(enabled=(use_amp and device.type == "cuda")):
-            # 两次 forward：原始 + yaw增强（由 transform 生成 batch["aug"]）
+            # 原始样本 + 增强样本
             pred, extras, pred_aug, extras_aug = forward_with_yaw_pair(model, batch)
 
+            # 原始样本监督
             loss_task = criterion(pred, y)
 
+            # 增强样本监督
             if use_aug_task_loss:
                 loss_task_aug = criterion(pred_aug, y)
             else:
                 loss_task_aug = torch.zeros((), device=device, dtype=loss_task.dtype)
 
-            # canonical consistency（仅在 FrameNet 存在时启用）
+            # 等变一致性约束
             Fm = extras.get("Fm", None) if isinstance(extras, dict) else None
             Fm_aug = extras_aug.get("Fm", None) if isinstance(extras_aug, dict) else None
 
             can_enabled = (
                 use_can_loss
                 and lambda_can > 0
+                and (use_mag_can_loss or use_imu_can_loss)
                 and Fm is not None
                 and Fm_aug is not None
             )
 
             if can_enabled:
                 loss_can = canonical_consistency_loss(
-                    Fm=Fm, # type: ignore
-                    Fm_aug=Fm_aug, # type: ignore
+                    Fm=Fm,  # type: ignore
+                    Fm_aug=Fm_aug,  # type: ignore
                     mag=batch["x_mag"],
                     acc=batch["x_acc"],
                     v1=batch["x_v1"],
@@ -99,6 +101,7 @@ def train_one_epoch(
             else:
                 loss_can = torch.zeros((), device=device, dtype=loss_task.dtype)
 
+            # 总损失
             loss = loss_task + loss_task_aug + lambda_can * loss_can
 
         scaler.scale(loss).backward()
@@ -249,8 +252,11 @@ def main():
     # val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-xinxi-resample-zscore-trans-all-feature-5" / "eval")
 
     
-    train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "train")
-    val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "eval")
+    # train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "train")
+    # val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "eval")
+
+    train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-zscore-trans-all-feature-5" / "train")
+    val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-zscore-trans-all-feature-5" / "eval")
     # test_dir = str(Path("data") / "test")  # 如果你也需要 test，可以照 val 再建一个 loader
 
     gpu_id = 0
@@ -263,7 +269,7 @@ def main():
     batch_size = 32
     lr = 5e-4
     epochs = 400
-    weight_decay = 3e-4
+    weight_decay = 1e-4
     num_workers = 2 if device.type == "cuda" else 0
     pin_memory = device.type == "cuda"
 
@@ -271,12 +277,26 @@ def main():
     stride = 10
 
     # canonical consistency
-    # lambda_can = 0.1
+    ablation_mode = "full"
+    if ablation_mode == "full":
+        use_can_loss = True
+        use_aug_task_loss = True
+    elif ablation_mode == "no_consistency":
+        use_can_loss = False
+        use_aug_task_loss = True
+    elif ablation_mode == "no_aug_task":
+        use_can_loss = True
+        use_aug_task_loss = False
+    else:
+        raise ValueError(f"Unknown ablation_mode: {ablation_mode}")
+    
+   
     canonicalize_mag=False
-    canonicalize_imu=True
+    canonicalize_imu=False
     use_aug_task_loss = True
     use_mag_can_loss = canonicalize_mag
-    use_imu_can_loss = canonicalize_mag
+    use_imu_can_loss = canonicalize_imu
+    gravity_align = False
 
     # y 归一化模式（与dataset norm_y对齐）
     y_norm_mode = "per_file_minmax"
@@ -308,7 +328,7 @@ def main():
         normalize_imu=False,
         y_norm_mode=y_norm_mode,
         cache_in_memory=True,
-        gravity_align=True,
+        gravity_align=gravity_align,
         use_linear_acc=False,
     )
 
@@ -327,7 +347,7 @@ def main():
         normalize_imu=False,
         y_norm_mode=y_norm_mode,
         cache_in_memory=True,
-        gravity_align=True,
+        gravity_align=gravity_align,
         use_linear_acc=False,
     )
 
@@ -343,7 +363,7 @@ def main():
         mag_input_dim=3,
         mag_d_model=128,
         seq_len=seq_len,
-        use_frame_net=True,
+        use_frame_net=False,
         canonicalize_mag=canonicalize_mag,
         canonicalize_imu=canonicalize_imu,
         
@@ -368,7 +388,7 @@ def main():
     date_suffix = datetime.now().strftime("_%Y%m%d_%H%M")
     run_dir.mkdir(parents=True, exist_ok=True)
     checkpoints_dir.mkdir(parents=True, exist_ok=True)
-    best_path = checkpoints_dir / f"mag_imu_eqnio_best{date_suffix}_can_mag_wenguan.pt"
+    best_path = checkpoints_dir / f"mag_imu_eqnio_best{date_suffix}_can_imu_wenguan.pt"
 
     best_val = float("inf")
     train_losses, val_losses = [], []

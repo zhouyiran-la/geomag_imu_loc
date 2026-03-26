@@ -49,15 +49,15 @@ def setup_plot_equivalent_style():
 
     matplotlib.rcParams.update({
         
-        "axes.labelsize": 15,
-        "axes.titlesize": 15,
-        "xtick.labelsize": 13,
-        "ytick.labelsize": 13,
-        "legend.fontsize": 13,
+        "axes.labelsize": 20,
+        "axes.titlesize": 20,
+        "xtick.labelsize": 18,
+        "ytick.labelsize": 18,
+        "legend.fontsize": 18,
         "lines.linewidth": 2.0,
         "grid.alpha": 0.4,
         "axes.edgecolor": "0.25",
-        "axes.linewidth": 1.5,
+        "axes.linewidth": 2.0,
     })
 
 

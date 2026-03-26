@@ -4,10 +4,10 @@ import os
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-# 信息楼
-PATH_BORDER = np.array([[0, 0], [0, 46.213], [39.2, 46.213], [39.2, 0], [0, 0]])
-# # 文管楼
-# PATH_BORDER = np.array([[20.892, 0], [55.897, 0], [55.897, 50.453], [0, 50.453]])
+# # 信息楼
+# PATH_BORDER = np.array([[0, 0], [0, 46.213], [39.2, 46.213], [39.2, 0], [0, 0]])
+# 文管楼
+PATH_BORDER = np.array([[20.892, 0], [55.897, 0], [55.897, 50.453], [0, 50.453]])
 
 def label_data(endpoints, num):
     """
@@ -306,6 +306,6 @@ def get_save_data_with_label_and_resample_csv(
 
 if __name__ == "__main__":
 
-    input_dir = "./data/12-25-信息文管室内地磁数据采集/12-25-Xiaomi 14/12-25-信息"
-    output_dir = "./data/12-25-信息文管室内地磁数据采集/12-25-Xiaomi 14/12-25-信息/resample-zscore-trans-all-feature-5"
+    input_dir = "./data/12-25-信息文管室内地磁数据采集/12-25-Xiaomi 14/12-25-文管"
+    output_dir = "./data/12-25-信息文管室内地磁数据采集/12-25-Xiaomi 14/12-25-文管/resample-zscore-trans-all-feature-5"
     get_save_data_with_label_and_resample_csv(input_dir, output_dir, trans=True, zscore=True)
