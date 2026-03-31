@@ -9,7 +9,7 @@ MAG_COLS = ["geomagneticx", "geomagneticy", "geomagneticz"]
 POS_COLS = ["pos_x", "pos_y"]
 ACC_COLS = ["accX", "accY", "accZ"]          # <-- change to your CSV column names if needed
 GYRO_COLS = ["gyroX", "gyroY", "gyroZ"]            # <-- change to your CSV column names if needed
-GRAV_COLS = ["gravityX", "gravityY", "gravityY"]   # <-- Android TYPE_GRAVITY columns (assumed)
+GRAV_COLS = ["gravityX", "gravityY", "gravityZ"]   # <-- Android TYPE_GRAVITY columns (assumed)
 
 class MagneticImuDataSet(Dataset):
     """MagneticDataSetV2:

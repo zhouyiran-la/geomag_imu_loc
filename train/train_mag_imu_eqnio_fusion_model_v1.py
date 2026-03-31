@@ -252,11 +252,11 @@ def main():
     # val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-xinxi-resample-zscore-trans-all-feature-5" / "eval")
 
     
-    # train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "train")
-    # val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "eval")
+    train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "train")
+    val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "eval")
 
-    train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-zscore-trans-all-feature-5" / "train")
-    val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-zscore-trans-all-feature-5" / "eval")
+    # train_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-zscore-trans-all-feature-5" / "train")
+    # val_dir = str(Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-zscore-trans-all-feature-5" / "eval")
     # test_dir = str(Path("data") / "test")  # 如果你也需要 test，可以照 val 再建一个 loader
 
     gpu_id = 0
@@ -276,27 +276,27 @@ def main():
     seq_len = 128     
     stride = 10
 
-    # canonical consistency
-    ablation_mode = "full"
-    if ablation_mode == "full":
-        use_can_loss = True
-        use_aug_task_loss = True
-    elif ablation_mode == "no_consistency":
-        use_can_loss = False
-        use_aug_task_loss = True
-    elif ablation_mode == "no_aug_task":
-        use_can_loss = True
-        use_aug_task_loss = False
-    else:
-        raise ValueError(f"Unknown ablation_mode: {ablation_mode}")
+    # # canonical consistency
+    # ablation_mode = "full"
+    # if ablation_mode == "full":
+    #     use_can_loss = True
+    #     use_aug_task_loss = True
+    # elif ablation_mode == "no_consistency":
+    #     use_can_loss = False
+    #     use_aug_task_loss = True
+    # elif ablation_mode == "no_aug_task":
+    #     use_can_loss = True
+    #     use_aug_task_loss = False
+    # else:
+    #     raise ValueError(f"Unknown ablation_mode: {ablation_mode}")
     
    
-    canonicalize_mag=False
-    canonicalize_imu=False
+    canonicalize_mag=True
+    canonicalize_imu=True
     use_aug_task_loss = True
     use_mag_can_loss = canonicalize_mag
     use_imu_can_loss = canonicalize_imu
-    gravity_align = False
+    gravity_align = True
 
     # y 归一化模式（与dataset norm_y对齐）
     y_norm_mode = "per_file_minmax"
@@ -363,7 +363,7 @@ def main():
         mag_input_dim=3,
         mag_d_model=128,
         seq_len=seq_len,
-        use_frame_net=False,
+        use_frame_net=True,
         canonicalize_mag=canonicalize_mag,
         canonicalize_imu=canonicalize_imu,
         

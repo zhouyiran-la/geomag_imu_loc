@@ -267,7 +267,7 @@ def main():
 
     # --------- 超参（按需调整） ---------
     batch_size = 32
-    lr = 5e-4
+    lr = 3e-4
     epochs = 400
     weight_decay = 1e-4
     num_workers = 2 if device.type == "cuda" else 0
@@ -363,7 +363,7 @@ def main():
     ).to(device)
 
     # --------- loss / optim / scheduler ---------
-    criterion = WeightedSmoothL1(beta=0.05, w_x=1.3, w_y=1.0).to(device)
+    criterion = WeightedSmoothL1(beta=0.05, w_x=1.0, w_y=1.3).to(device)
     optimizer = Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-6)
 
@@ -373,7 +373,7 @@ def main():
     date_suffix = datetime.now().strftime("_%Y%m%d_%H%M")
     run_dir.mkdir(parents=True, exist_ok=True)
     checkpoints_dir.mkdir(parents=True, exist_ok=True)
-    best_path = checkpoints_dir / f"mag_imu_eqnio_best{date_suffix}_xinxi.pt"
+    best_path = checkpoints_dir / f"mag_imu_eqnio_best{date_suffix}_wenguan.pt"
 
     best_val = float("inf")
     train_losses, val_losses = [], []
