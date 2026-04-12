@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 DATA_PATH = ROOT / "data" / "12-25-信息文管室内地磁数据采集"/"12-25-MEIZU 20"/"12-25-信息"/"dataset_2025-12-25_20-45-32-041.csv"
 
-ACC_FILTER_OUTPUT_PATH = ROOT / "figures" / "imu_acc_lowpass_compare.png"
-GYRO_FILTER_OUTPUT_PATH = ROOT / "figures" / "imu_gyro_lowpass_compare.png"
+ACC_FILTER_OUTPUT_PATH = ROOT / "figures" / "imu_acc_lowpass_compare.svg"
+GYRO_FILTER_OUTPUT_PATH = ROOT / "figures" / "imu_gyro_lowpass_compare.svg"
 
 # =========================
 # 参数

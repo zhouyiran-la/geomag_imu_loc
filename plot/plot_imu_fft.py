@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 from matplotlib.ticker import FormatStrFormatter
 
-from plot.utils.plot_style import setup_plot_equal_style, style_axis, save_figure
+from plot.utils.plot_style import setup_plot_equivalent_style, style_axis, save_figure
 
-setup_plot_equal_style()
+setup_plot_equivalent_style()
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -17,8 +17,8 @@ DATA_PATH = ROOT / "data" / "12-25-信息文管室内地磁数据采集"/"12-25-
 # DATA_PATH = ROOT / "data" / "12-25-信息文管室内地磁数据采集"/"12-25-MEIZU 20"/"12-25-信息"/"dataset_2025-12-25_20-49-53-750.csv"
 
 
-ACC_FFT_OUTPUT_PATH = ROOT / "figures" / "imu_acc_norm_fft_meizu_xinxi_orange.png"
-GYRO_FFT_OUTPUT_PATH = ROOT / "figures" / "imu_gyro_norm_fft_honor_xinxi.png"
+ACC_FFT_OUTPUT_PATH = ROOT / "figures" / "imu_acc_norm_fft_meizu_xinxi.png"
+GYRO_FFT_OUTPUT_PATH = ROOT / "figures" / "imu_gyro_norm_fft_meizu_xinxi.png"
 
 # =========================
 # 参数控制
@@ -138,7 +138,7 @@ plot_fft_spectrum(
     signal=acc_norm,
     fs=FS,
     output_path=ACC_FFT_OUTPUT_PATH,
-    color="#F18C54",
+    color="#D9995B", #"#5CA7C7"
     ylabel="幅值",
     xlabel = "频率 (Hz)",
     figsize=FIG_SIZE,

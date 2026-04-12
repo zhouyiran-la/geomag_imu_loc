@@ -264,7 +264,7 @@ def plot_multi_trajectories(
 
 
     plt.tight_layout()
-    fig.savefig(output_path, dpi=600)
+    fig.savefig(output_path, dpi=300)
     plt.close(fig)
 
 

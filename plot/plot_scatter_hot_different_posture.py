@@ -25,7 +25,7 @@ CSV_PATHS = [
 
 POSE_LABELS = ["水平", "竖直", "口袋", "任意"]
 
-OUTPUT_PATH = ROOT / "figures" / "pose_xy_error_heatmap_xinxi.png"
+OUTPUT_PATH = ROOT / "figures" / "pose_xy_error_heatmap_xinxi.svg"
 
 
 # ================== 读取xy误差 ==================
@@ -172,7 +172,7 @@ def main():
     )
     
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(OUTPUT_PATH, dpi=600)
+    plt.savefig(OUTPUT_PATH, dpi=300)
     plt.close()
 
     print(f"Saved XY error heatmap to {OUTPUT_PATH}")

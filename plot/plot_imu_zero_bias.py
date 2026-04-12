@@ -13,13 +13,13 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "data" / "zero-bias" / "huawei_dataset_2026-03-30_15-55-18-671.csv"
 # DATA_PATH = ROOT / "data" / "zero-bias" / "meizu_dataset_2026-03-30_15-52-33-006.csv"
 # DATA_PATH = ROOT / "data" / "zero-bias" / "oppo_dataset_2026-03-31_19-58-30-812.csv"
-ACC_OUTPUT_PATH = ROOT / "figures" / "imu_static_acc_3axis.png"
-GYRO_OUTPUT_PATH = ROOT / "figures" / "imu_static_gyro_3axis.png"
+ACC_OUTPUT_PATH = ROOT / "figures" / "imu_static_acc_3axis.svg"
+GYRO_OUTPUT_PATH = ROOT / "figures" / "imu_static_gyro_3axis.svg"
 
 # =========================
 # 参数
 # =========================
-START_INDEX = 500 #  xiaomi huawei_500 oppo 800
+START_INDEX = 200 #  xiaomi huawei_500 oppo 800 huawei 200
 MAX_SAMPLES = 1000
 
 FIG_SIZE = (6.0, 5.0)
@@ -47,9 +47,9 @@ gyroZ = df["gyroZ"].to_numpy()
 
 def format_mean(mean_val):
     if abs(mean_val) < 1e-2:
-        return f"均值：{mean_val:.3e}"   # 小量用科学计数法
+        return f"均值：{mean_val:.2e}"   # 小量用科学计数法
     else:
-        return f"均值：{mean_val:.3f}"   # 大量正常显示
+        return f"均值：{mean_val:.2f}"   # 大量正常显示
 
 # =========================
 # 绘图函数（3轴垂直）
@@ -116,8 +116,8 @@ def plot_3axis_vertical(
         top=0.97,
         hspace=0.05,
     )
-    # save_figure(fig, output_path, show=False, tight=False)
-    # plt.close(fig)
+    save_figure(fig, output_path, show=False, tight=False)
+    plt.close(fig)
 
 
 # =========================

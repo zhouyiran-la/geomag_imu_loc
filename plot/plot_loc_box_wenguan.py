@@ -26,7 +26,7 @@ CSV_PATHS = [
 
 LABELS = ["M1", "M2", "M3", "M4" , "M5", "M6"]
 
-OUTPUT_PATH = ROOT / "figures" / "loc_error_boxplot_equivalent_wenguan.png"
+OUTPUT_PATH = ROOT / "figures" / "loc_error_boxplot_equivalent_wenguan.svg"
 Y_MAX = None  # 可手动设上限，如 6.0
 
 # ================== 读取误差 ==================
@@ -143,7 +143,7 @@ def main():
     plt.legend(loc="upper right")
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
-    plt.savefig(OUTPUT_PATH, dpi=600)
+    plt.savefig(OUTPUT_PATH, dpi=300)
     plt.close()
 
     print(f"Saved boxplot with mean to {OUTPUT_PATH.resolve()}")

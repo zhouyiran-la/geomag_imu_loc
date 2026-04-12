@@ -11,13 +11,13 @@ setup_plot_equal_style()
 
 ROOT = Path(__file__).resolve().parents[1]
 
-DATA_PATH = ROOT / "data" / "gravity_align" / "dataset_2026-03-31_15-33-19-081.csv"
+DATA_PATH = ROOT / "data" / "gravity_align" / "dataset_2026-03-31_15-32-42-661.csv"
 
-ACC_BEFORE_OUTPUT_PATH = ROOT / "figures" / "acc_before_alignment_free.png"
-ACC_AFTER_OUTPUT_PATH = ROOT / "figures" / "acc_after_alignment_free.png"
+ACC_BEFORE_OUTPUT_PATH = ROOT / "figures" / "acc_before_alignment_horizontal.svg"
+ACC_AFTER_OUTPUT_PATH = ROOT / "figures" / "acc_after_alignment_horizontal.svg"
 
-GRAV_BEFORE_OUTPUT_PATH = ROOT / "figures" / "gravity_before_alignment_free.png"
-GRAV_AFTER_OUTPUT_PATH = ROOT / "figures" / "gravity_after_alignment_free.png"
+GRAV_BEFORE_OUTPUT_PATH = ROOT / "figures" / "gravity_before_alignment_horizontal.svg"
+GRAV_AFTER_OUTPUT_PATH = ROOT / "figures" / "gravity_after_alignment_horizontal.svg"
 
 # =========================
 # 参数
@@ -82,11 +82,9 @@ def plot_3axis(
     figsize=(8.5, 6.0),
 ):
     fig, axes = plt.subplots(3, 1, figsize=figsize, sharex=True)
-
     for i in range(3):
         ax = axes[i]
-        y = data[i]
-
+        y = data[:,i]
         ax.plot(
             x,
             y,

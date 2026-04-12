@@ -22,7 +22,7 @@ CSV_PATHS = [
 
 POSE_LABELS = ["水平", "竖直", "姿态3", "姿态4"]
 
-OUTPUT_PATH = ROOT / "figures" / "xinxi_path1_pose_error_scatter.png"
+OUTPUT_PATH = ROOT / "figures" / "xinxi_path1_pose_error_scatter.svg"
 Y_MAX = None   # 可手动设为如 8.0
 
 
@@ -138,7 +138,7 @@ def main():
 
     plt.tight_layout(rect=[0, 0, 1, 0.95]) # type: ignore
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(OUTPUT_PATH, dpi=600)
+    plt.savefig(OUTPUT_PATH, dpi=300)
     plt.close()
 
     print(f"Saved pose error scatter figure to {OUTPUT_PATH.resolve()}")

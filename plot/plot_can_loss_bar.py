@@ -8,7 +8,7 @@ from plot.utils.plot_style import setup_plot_equivalent_style, style_axis, save_
 setup_plot_equivalent_style()
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_PATH = ROOT / "figures" / "can_loss_bar.png"
+OUTPUT_PATH = ROOT / "figures" / "can_loss_bar.svg"
 
 
 # ===== 数据 =====
@@ -49,7 +49,7 @@ colors = [
 #   "#FCD7D4",  # steel blue
 # ]
 
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(8, 7))
 
 for i in range(category_num):
     bar_positions = x_group + offsets[i]
@@ -84,7 +84,7 @@ plt.ylim(0, 3)
 plt.legend(title="", loc='best')
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
 plt.tight_layout()
-plt.savefig(OUTPUT_PATH, dpi=600)
+plt.savefig(OUTPUT_PATH, dpi=300)
 plt.close()
 
 print(f"Saved CDF plot to {OUTPUT_PATH.resolve()}")

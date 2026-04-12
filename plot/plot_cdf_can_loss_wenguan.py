@@ -20,7 +20,7 @@ CSV_PATHS = [
 ]
 
 LABELS = ['Full', 'No-Aug', 'No-Cons']
-OUTPUT_PATH = ROOT / "figures" / "loc_cdf_can_loss_wenguan.png"
+OUTPUT_PATH = ROOT / "figures" / "loc_cdf_can_loss_wenguan.svg"
 X_MAX = None  # Set to a float to force xmax, or None to auto-scale.
 
 
@@ -126,7 +126,7 @@ def main():
     plt.ylim(0, 1.0)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
-    plt.savefig(OUTPUT_PATH, dpi=600)
+    plt.savefig(OUTPUT_PATH, dpi=300)
     plt.close()
     print(f"Saved CDF plot to {OUTPUT_PATH.resolve()}")
 

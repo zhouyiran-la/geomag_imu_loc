@@ -13,9 +13,9 @@ ROOT = Path(__file__).resolve().parents[1]
 # DATA_PATH = ROOT / "data" / "12-25-信息文管室内地磁数据采集"/"12-25-Xiaomi 14"/"12-25-信息"/"dataset_2025-12-25_20-45-10-523.csv"
 # DATA_PATH = ROOT / "data" / "12-25-信息文管室内地磁数据采集"/"12-25-MEIZU 20"/"12-25-文管"/"dataset_2025-12-25_19-18-16-132.csv"
 DATA_PATH = ROOT / "data" / "12-25-信息文管室内地磁数据采集"/"12-25-MEIZU 20"/"12-25-信息"/"dataset_2025-12-25_20-45-32-041.csv"
-ACC_OUTPUT_PATH = ROOT / "figures" / "imu_acc_meizu_xinxi.png"
-GYRO_OUTPUT_PATH = ROOT / "figures" / "imu_gyro_meizu_xinxi.png"
-# IMU_OUTPUT_PATH = ROOT / "figures" / "imu_acc_gyro_meizu_xinxi.png"
+ACC_OUTPUT_PATH = ROOT / "figures" / "imu_acc_meizu_xinxi.svg"
+GYRO_OUTPUT_PATH = ROOT / "figures" / "imu_gyro_meizu_xinxi.svg"
+# IMU_OUTPUT_PATH = ROOT / "figures" / "imu_acc_gyro_meizu_xinxi.svg"
 # =========================
 # 参数控制
 # =========================
@@ -51,84 +51,6 @@ def symmetric_ylim(data, margin=0.1):
     max_val = np.max(np.abs(data))
     limit = (1 + margin) * max_val
     return -limit, limit
-
-# def plot_two_column_imu(
-#     x,
-#     accX,
-#     accY,
-#     accZ,
-#     gyroX,
-#     gyroY,
-#     gyroZ,
-#     output_path,
-#     xlabel="样本序号",
-#     acc_color="#1f77b4",
-#     gyro_color="orange",
-#     figsize=(10, 7),
-#     hspace=0.05,
-#     wspace=0.15,
-# ):
-
-#     fig, axes = plt.subplots(3, 2, figsize=figsize, sharex=True)
-
-#     acc_series = [accX, accY, accZ]
-#     gyro_series = [gyroX, gyroY, gyroZ]
-
-#     acc_labels = ["accX", "accY", "accZ"]
-#     gyro_labels = ["gyroX", "gyroY", "gyroZ"]
-
-#     for i in range(3):
-
-#         # 左列：加速度
-#         ax_acc = axes[i, 0]
-#         ax_acc.plot(x, acc_series[i], color=acc_color)
-#         ax_acc.set_ylabel(acc_labels[i], labelpad=6)
-#         ax_acc.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-#         ax_acc.grid(False)
-#         # ymin, ymax = symmetric_ylim(acc_series[i])
-#         # ax_acc.set_ylim(ymin, ymax)
-#         ax_acc.tick_params(
-#             axis="y",
-#             which="major",
-#             direction="in",
-#             length=5,
-#             width=1.0,
-#         )
-
-#         # 右列：陀螺仪
-#         ax_gyro = axes[i, 1]
-#         ax_gyro.plot(x, gyro_series[i], color=gyro_color)
-#         ax_gyro.set_ylabel(gyro_labels[i], labelpad=6)
-#         ax_gyro.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-#         ax_gyro.grid(False)
-#         ymin, ymax = symmetric_ylim(gyro_series[i])
-#         ax_gyro.set_ylim(ymin, ymax)
-#         ax_gyro.tick_params(
-#             axis="y",
-#             which="major",
-#             direction="in",
-#             length=5,
-#             width=1.0,
-#         )
-
-#     # 最底部加 x 轴
-#     axes[2, 0].set_xlabel(xlabel, labelpad=0)
-#     axes[2, 1].set_xlabel(xlabel, labelpad=0)
-
-#     # 顶部标题
-#     axes[0, 0].set_title("加速度计", pad=6)
-#     axes[0, 1].set_title("陀螺仪", pad=6)
-
-#     fig.subplots_adjust(
-#         left=0.12,
-#         right=0.96,
-#         bottom=0.08,
-#         top=0.92,
-#         hspace=0.05,
-#     )
-
-#     save_figure(fig, output_path, show=False, tight=False)
-#     plt.close(fig)
 
 def plot_3axis(
     x,

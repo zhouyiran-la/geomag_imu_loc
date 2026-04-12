@@ -14,17 +14,17 @@ setup_plot_equivalent_style()
 
 ROOT = Path(__file__).resolve().parents[1]
 CSV_PATHS = [
-    # ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi" / "1432_xinxi_test1_loc_res_meanerr_0.4983.csv",
-    # ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi" / "2046_xinxi_test4_loc_res_no_aug_loss_meanerr_1.0490.csv",
-    # ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi" / "2011_xinxi_test3_loc_res_no_can_loss_meanerr_1.5321.csv",
+    ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi" / "1432_xinxi_test1_loc_res_meanerr_0.4983.csv",
+    ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi" / "2046_xinxi_test4_loc_res_no_aug_loss_meanerr_1.0490.csv",
+    ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi" / "2011_xinxi_test3_loc_res_no_can_loss_meanerr_1.5321.csv",
 
-    ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi_2" / "1432_xinxi_2_test8_loc_res_meanerr_0.5148.csv",
-    ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi_2" / "2046_xinxi_2_test8_loc_res_no_aug_loss_meanerr_0.9811.csv",
-    ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi_2" / "2011_xinxi_2_test5_loc_res_no_can_loss_meanerr_1.9466.csv",
+    # ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi_2" / "1432_xinxi_2_test8_loc_res_meanerr_0.5148.csv",
+    # ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi_2" / "2046_xinxi_2_test8_loc_res_no_aug_loss_meanerr_0.9811.csv",
+    # ROOT / "runs" / "loc_res" / "mag_imu_eqnio_can_loss_xinxi_2" / "2011_xinxi_2_test5_loc_res_no_can_loss_meanerr_1.9466.csv",
 ]
 
 LABELS = ['Full', 'No-Aug', 'No-Cons']
-OUTPUT_PATH = ROOT / "figures" / "loc_cdf_can_loss_xinxi_2.png"
+OUTPUT_PATH = ROOT / "figures" / "loc_cdf_can_loss_xinxi.svg"
 X_MAX = None  # Set to a float to force xmax, or None to auto-scale.
 
 
@@ -130,7 +130,7 @@ def main():
     plt.ylim(0, 1.0)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
-    plt.savefig(OUTPUT_PATH, dpi=600)
+    plt.savefig(OUTPUT_PATH, dpi=300)
     plt.close()
     print(f"Saved CDF plot to {OUTPUT_PATH.resolve()}")
 

@@ -46,7 +46,7 @@ CSV_PATHS = [
 
 # LABELS = ["Proposed", "Wang(2024)", "HLSTM(2022)", "MAIL(2020)", "RNN"]
 LABELS = ["M1", "M2", "M3", "M4" , "M5", "M6"]
-OUTPUT_PATH = ROOT / "figures" / "loc_cdf_equivalent_wenguan.png"
+OUTPUT_PATH = ROOT / "figures" / "loc_cdf_equivalent_wenguan.svg"
 PLOT_TITLE = "Localization Error CDF"
 X_MAX = None  # Set to a float to force xmax, or None to auto-scale.
 
@@ -147,7 +147,7 @@ def main():
     plt.ylim(0, 1.0)
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
-    plt.savefig(OUTPUT_PATH, dpi=600)
+    plt.savefig(OUTPUT_PATH, dpi=300)
     plt.close()
     print(f"Saved CDF plot to {OUTPUT_PATH.resolve()}")
 

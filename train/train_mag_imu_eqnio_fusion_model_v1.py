@@ -268,7 +268,7 @@ def main():
     # --------- 超参（按需调整） ---------
     batch_size = 32
     lr = 5e-4
-    epochs = 400
+    epochs = 200
     weight_decay = 1e-4
     num_workers = 2 if device.type == "cuda" else 0
     pin_memory = device.type == "cuda"
@@ -296,6 +296,7 @@ def main():
     use_aug_task_loss = True
     use_mag_can_loss = canonicalize_mag
     use_imu_can_loss = canonicalize_imu
+    use_imu_fusion = False
     gravity_align = True
 
     # y 归一化模式（与dataset norm_y对齐）
@@ -366,7 +367,7 @@ def main():
         use_frame_net=True,
         canonicalize_mag=canonicalize_mag,
         canonicalize_imu=canonicalize_imu,
-        
+        use_imu_fusion=use_imu_fusion,
         frame_hidden=64,
         frame_depth=3,
         imu_c=64,
@@ -388,7 +389,7 @@ def main():
     date_suffix = datetime.now().strftime("_%Y%m%d_%H%M")
     run_dir.mkdir(parents=True, exist_ok=True)
     checkpoints_dir.mkdir(parents=True, exist_ok=True)
-    best_path = checkpoints_dir / f"mag_imu_eqnio_best{date_suffix}_can_imu_wenguan.pt"
+    best_path = checkpoints_dir / f"mag_imu_eqnio_best{date_suffix}_mag_only_wenguan.pt"
 
     best_val = float("inf")
     train_losses, val_losses = [], []

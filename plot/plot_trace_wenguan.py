@@ -19,7 +19,7 @@ CSV_PATHS = [
 
 LABELS = ["Huawei P60", "MEIZU 20", "OPPO Find X", "Xiaomi 14"]
 COLORS = ["#0000FF", "#FF0000", "#9400D3","#F3A332"]
-OUTPUT_PATH = ROOT / "plot" / "output" / "loc_traj_different_phone_wenguan.png"
+OUTPUT_PATH = ROOT / "figures" / "loc_traj_different_phone_wenguan.png"
 
 def load_result_detail_csv(path):
     """
@@ -255,7 +255,7 @@ def plot_multi_trajectories(
 
 
     plt.tight_layout()
-    fig.savefig(output_path, dpi=600)
+    fig.savefig(output_path, dpi=300)
     plt.close(fig)
 
 

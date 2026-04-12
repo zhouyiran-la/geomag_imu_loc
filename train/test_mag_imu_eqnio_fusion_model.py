@@ -91,7 +91,7 @@ def test(
             f"mean_l1={mean_l1:.3f} mean_l2={mean_l2:.3f} rmse_x={rmse_x:.3f} rmse_y={rmse_y:.3f} rmse_2d={rmse_2d:.3f}")
     
     res_dir.mkdir(parents=True, exist_ok=True)
-    file_name = f"2314_wenguan_test3_loc_res_meanerr_{mean_l2:.4f}.csv"
+    file_name = f"2314_wenguan_test2_loc_res_meanerr_{mean_l2:.4f}.csv"
     output_csv = res_dir / file_name
 
     results_df = pd.DataFrame(
@@ -129,13 +129,13 @@ def test(
 if __name__ == "__main__":
 
     # test_dir = Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-zscore-trans-all-feature-5" / "test1"
-    # test_dir = Path("data") / "data_for_train_test_v1" / "12.25-xinxi-resample-zscore-trans-all-feature-5" / "test1"
-    test_dir = Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "test3"
+    # test_dir = Path("data") / "data_for_train_test_v1" / "12.25-xinxi-resample-zscore-trans-all-feature-5" / "test4"
+    test_dir = Path("data") / "data_for_train_test_v1" / "12.25-wenguan-resample-filter-zscore-all-feature-5" / "test2"
 
-    # test_dir = Path("data") / "data_for_train_test_v1" / "12.25-xinxi-resample-zscore-all-feature-5-v3" / "test8"
+    # test_dir = Path("data") / "data_for_train_test_v1" / "12.25-xinxi-resample-zscore-all-feature-5-v3" / "test4"
 
 
-    ckpt_path = Path("checkpoints") / "mag_imu_eqnio" / "mag_imu_eqnio_best_20260327_2314__rmse_2d_0.944_wenguan.pt"
+    ckpt_path = Path("checkpoints") / "mag_imu_eqnio" / "mag_imu_eqnio_best_20260327_2314_rmse_2d_0.944_wenguan.pt"
     res_dir = Path("runs") / "loc_res" / "mag_imu_eqnio_different_posture"
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -146,15 +146,17 @@ if __name__ == "__main__":
     seq_len = 128     
     stride = 10
     y_norm_mode = "per_file_minmax"
+
     canonicalize_mag=True
     canonicalize_imu=True
     gravity_align = True
+    use_imu_fusion = True
 
     feature_transform = ComposeTransform([
             DefaultTransform(),
             YawAugmentO2Transform(p_reflect=0.0),
     ])
-    criterion = WeightedSmoothL1(beta=0.05, w_x=1.0, w_y=1.3).to(device)
+    criterion = WeightedSmoothL1(beta=0.05, w_x=1.3, w_y=1.0).to(device)
 
     model = MagImuEqNioFusionModelV1(
         mag_input_dim=3,
@@ -163,7 +165,7 @@ if __name__ == "__main__":
         use_frame_net=True,
         canonicalize_mag=canonicalize_mag,
         canonicalize_imu=canonicalize_imu,
-        
+        use_imu_fusion=use_imu_fusion,
         frame_hidden=64,
         frame_depth=3,
         imu_c=64,

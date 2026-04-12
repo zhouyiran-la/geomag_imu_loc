@@ -13,7 +13,7 @@ setup_plot_equivalent_style()
 
 # ================== 路径配置 ==================
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_PATH = ROOT / "figures" / "loc_error_group_boxplot.png"
+OUTPUT_PATH = ROOT / "figures" / "loc_error_group_boxplot.svg"
 Y_MAX = 10
 # ================== 姿态在外层 ==================
 CSV_GROUPS = {
@@ -169,7 +169,7 @@ def plot_grouped_boxplot():
     ax.tick_params(direction="in")
 
     plt.tight_layout()
-    plt.savefig(OUTPUT_PATH, dpi=600)
+    plt.savefig(OUTPUT_PATH, dpi=300)
     plt.close()
 
     print(f"Saved grouped boxplot to {OUTPUT_PATH}")
